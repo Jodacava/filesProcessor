@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head></head>
+<body>
+<div style="background-color: #f4f4f4; padding: 20px;">
+    <h1 style="color: #333;">Greetings,</h1>
+    <p style="color: #555;">This is an email that contains the summary of transactions.</p>
+    <p style="color: #555;">Treasure Department</p>
+</div>
+<!-- Firma con logo -->
+<div style="margin-top: 20px;">
+    <img src= "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9ijOl7Q8d1bM6ipp05cuDKueVa-gQl6sdQE42x3qlWw&s" alt="Logo" style="max-width: 150px;">
+    <p style="color: #777; font-size: 14px;">Backend Developer | Stori</p>
+    <p style="color: #777; font-size: 14px;">Phone: +123456789 | Email: test@storiTest.com</p>
+    <p style="color: #777; font-size: 14px;">Web site: www.storicard.com/</p>
+    <!-- Additional Information: -->
+    <div style="margin-top: 20px;">
+        {{ range . }}
+        <p style="color: #333;">{{.Tittle}}: {{.Value}}</p>
+        {{ end }}
+    </div>
+</div>
+</body>
+</html>
