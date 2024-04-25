@@ -1,6 +1,7 @@
 package fileProcess
 
 import (
+	"filesProcessor/baseDatos/postgres"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -9,6 +10,7 @@ import (
 
 type Server struct {
 	repo        RepositoryBase
+	dbRepo      postgres.DbRepositoryBase
 	debit       float32
 	debitCount  float32
 	credit      float32
@@ -32,18 +34,21 @@ type AdditionalData struct {
 }
 
 type UserTransaction struct {
-	Month       string  `gorm:"column:month"`
-	Day         int     `gorm:"column:day"`
-	Transaction float64 `gorm:"column:transaction"`
-	EmailTo     string  `gorm:"column:email_to"`
+	Month       string  `gorm:"column:month" json:"month"`
+	Day         int     `gorm:"column:day" json:"day"`
+	Transaction float64 `gorm:"column:transaction" json:"transaction"`
+	EmailTo     string  `gorm:"column:email_to" json:"emailTo"`
 }
 
-func (t UserTransaction) TableName() string {
+func (UserTransaction) TableName() string {
 	return "transactions"
 }
 
-func NewServer(repo RepositoryBase) ServerBase {
-	return Server{repo: repo}
+func NewServer(repo RepositoryBase, dbRepository postgres.DbRepositoryBase) ServerBase {
+	return Server{
+		repo:   repo,
+		dbRepo: dbRepository,
+	}
 }
 
 func (s Server) ProcessFile(fileArray [][]string, userEmail string) (CsvUploadResponse, int, error) {
@@ -63,7 +68,7 @@ func (s Server) ProcessFile(fileArray [][]string, userEmail string) (CsvUploadRe
 		}
 		monthName := time.Month(month).String()
 		monthCount[monthName] += 1
-		s.repo.DbSave(UserTransaction{
+		s.dbRepo.Save(&UserTransaction{
 			Month:       monthName,
 			Day:         day,
 			Transaction: val,

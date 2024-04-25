@@ -1,4 +1,4 @@
-package baseDatos
+package postgres
 
 import (
 	"github.com/jinzhu/gorm"
@@ -7,7 +7,7 @@ import (
 )
 
 func NewPostgres() (*gorm.DB, error) {
-	connectionString := "postgresql://postgres:gqMgnayv9nR7u7i@tizon.cjxcsq7qqmym.us-east-1.rds.amazonaws.com:5432/stori"
+	connectionString := "postgres://postgres:F4mC4sh3r:2016@localhost:5432/postgres?sslmode=disable"
 	DB, err := gorm.Open("postgres", connectionString)
 	if err != nil {
 		return nil, err
