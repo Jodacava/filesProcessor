@@ -32,7 +32,7 @@ type AdditionalData struct {
 }
 
 type UserTransaction struct {
-	Month       int     `gorm:"column:month"`
+	Month       string  `gorm:"column:month"`
 	Day         int     `gorm:"column:day"`
 	Transaction float64 `gorm:"column:transaction"`
 	EmailTo     string  `gorm:"column:email_to"`
@@ -53,12 +53,22 @@ func (s Server) ProcessFile(fileArray [][]string, userEmail string) (CsvUploadRe
 		if errVal != nil {
 			continue
 		}
+		day, errDay := strconv.Atoi(rowData[2])
+		if errDay != nil {
+			continue
+		}
 		month, errMonth := strconv.Atoi(rowData[1])
 		if errMonth != nil {
 			continue
 		}
 		monthName := time.Month(month).String()
 		monthCount[monthName] += 1
+		s.repo.DbSave(UserTransaction{
+			Month:       monthName,
+			Day:         day,
+			Transaction: val,
+			EmailTo:     userEmail,
+		})
 		if val > 0 {
 			s.debit += float32(val)
 			s.debitCount += 1

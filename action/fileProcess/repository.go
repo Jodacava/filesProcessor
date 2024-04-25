@@ -18,6 +18,7 @@ type Repository struct {
 
 type RepositoryBase interface {
 	EmailSender(emailBody []AdditionalData, userEmail string) error
+	DbSave(data UserTransaction) error
 }
 
 func NewRepository(dbClient *gorm.DB, from, password, smtHost, smtPort string) RepositoryBase {
