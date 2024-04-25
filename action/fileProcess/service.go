@@ -31,6 +31,17 @@ type AdditionalData struct {
 	Value  string
 }
 
+type UserTransaction struct {
+	Month       int     `gorm:"column:month"`
+	Day         int     `gorm:"column:day"`
+	Transaction float64 `gorm:"column:transaction"`
+	EmailTo     string  `gorm:"column:email_to"`
+}
+
+func (t UserTransaction) TableName() string {
+	return "transactions"
+}
+
 func NewServer(repo RepositoryBase) ServerBase {
 	return Server{repo: repo}
 }

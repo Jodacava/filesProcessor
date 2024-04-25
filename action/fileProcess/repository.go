@@ -3,11 +3,13 @@ package fileProcess
 import (
 	"bytes"
 	"fmt"
+	"github.com/jinzhu/gorm"
 	"html/template"
 	"net/smtp"
 )
 
 type Repository struct {
+	DbClient *gorm.DB
 	from     string
 	password string
 	smtpHost string
@@ -18,8 +20,9 @@ type RepositoryBase interface {
 	EmailSender(emailBody []AdditionalData, userEmail string) error
 }
 
-func NewRepository(from, password, smtHost, smtPort string) RepositoryBase {
+func NewRepository(dbClient *gorm.DB, from, password, smtHost, smtPort string) RepositoryBase {
 	return Repository{
+		DbClient: dbClient,
 		from:     from,
 		password: password,
 		smtpHost: smtHost,
@@ -52,4 +55,9 @@ func (r Repository) EmailSender(emailBody []AdditionalData, userEmail string) er
 	}
 	fmt.Println("Email Sent Successfully!")
 	return nil
+}
+
+func (r Repository) DbSave(data UserTransaction) error {
+	err := r.DbClient.Save(data).Error
+	return err
 }

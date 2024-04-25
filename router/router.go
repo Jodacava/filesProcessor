@@ -2,6 +2,7 @@ package router
 
 import (
 	"filesProcessor/action/fileProcess"
+	"filesProcessor/baseDatos"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -25,7 +26,8 @@ func NewRouter() *gin.Engine {
 }
 
 func SetFilesProcessor(api *gin.RouterGroup) {
-	repository := fileProcess.NewRepository("jdcv0116@gmail.com", "A$i7kr.4m4NsiB9", "smtp.gmail.com", "587")
+	dbClient, _ := baseDatos.NewPostgres()
+	repository := fileProcess.NewRepository(dbClient, "jdcv0116@gmail.com", "A$i7kr.4m4NsiB9", "smtp.gmail.com", "587")
 	services := fileProcess.NewServer(repository)
 	fileProcessHandler := fileProcess.ProcessHandler(services)
 	api.POST("/action/file/process", fileProcessHandler)
