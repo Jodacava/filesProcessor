@@ -1,7 +1,7 @@
 package fileProcess
 
 import (
-	"filesProcessor/baseDatos/postgres"
+	"filesProcessor/dataBase/postgres"
 	"fmt"
 	"net/http"
 	"strconv"

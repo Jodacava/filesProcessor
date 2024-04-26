@@ -2,7 +2,7 @@ package router
 
 import (
 	"filesProcessor/action/fileProcess"
-	"filesProcessor/baseDatos/postgres"
+	"filesProcessor/dataBase/postgres"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
