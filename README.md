@@ -8,6 +8,12 @@ RUN PROJECT
 - Run the migration m1.sql in dataBase/postgres/migrations
 - Execute .deploy.sh or type: "go run main.go" on the Terminal and enter
 
-File Template
+CURL FOR LOCAL PURPOSE
+
+curl --location 'http://localhost:8080/api/files-processor-api/action/file/process' \
+--form 'file=@"/<route to the CSV file>"' \
+--form 'user-email="<email destination>"'
+
+FILE TEMPLATE
 
 > action/fileProcess/docs/txns.csv
